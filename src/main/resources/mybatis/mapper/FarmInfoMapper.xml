@@ -1,0 +1,230 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.jwtsecutity.mapper.FarmInfoMapper">
+    <select id="getFarmByID" parameterType="String" resultType="com.example.jwtsecutity.entity.FarmInfo">
+        select * from FarmInfo where UUID = #{uuid}
+    </select>
+    <select id="getFarmsByPosition" resultType="com.example.jwtsecutity.entity.FarmInfo">
+        select * from FarmInfo
+        <choose>
+            <when test="districtID!=null and districtID!=0">
+                where  districtID = #{districtID}
+            </when>
+
+            <when test="cityID!=null and cityID!=0">
+                where   cityID = #{cityID}
+            </when>
+            <when test="provineceID!=null and provineceID!=0">
+                where   provineceID = #{provineceID}
+            </when>
+        </choose>
+    </select>
+
+<!--
+select top 100  * from sensorhistory where sensorInfoID in (
+
+select sensorInfoID from sensorhistory where sensorInfoID in
+(select sensor_id from sensorinfo where animalHouseID in ( select id from AnimalHouseInfo where farm_uuid in
+ (select UUID   from [FarmInfo] where provineceID=2)))
+
+ group by sensorInfoID
+ having count(1)>10
+
+)
+-->
+
+
+    <select id="getFarmsByCount" resultType="java.util.HashMap">
+        select  type,count(type)  typecount  from sensorinfo where animalHouseID in ( select id from AnimalHouseInfo where farm_uuid in
+        (select UUID   from [FarmInfo]
+
+        <choose>
+            <when test="districtID!=null and districtID!=0">
+                where districtID = #{districtID}
+            </when>
+
+            <when test="cityID!=null and cityID!=0">
+                where cityID = #{cityID}
+            </when>
+            <when test="provineceID!=null and provineceID!=0">
+                where provineceID = #{provineceID}
+            </when>
+        </choose>
+        ))
+        group by type
+    </select>
+
+
+
+
+
+    <insert id="insertFarm" parameterType="com.example.jwtsecutity.entity.FarmInfo" useGeneratedKeys="true">
+
+        insert into FarmInfo(UUID,
+        <if test="name!=null and name!=''">
+            name,
+        </if>
+        <if test="code!=null and code!=''">
+            code,
+        </if>
+        <if test="provineceID!=null and provineceID!=''">
+            provineceID,
+        </if>
+        <if test="provineceName!=null and provineceName!=''">
+            provineceName,
+        </if>
+        <if test="cityID!=null and cityID!=''">
+            cityID,
+        </if>
+        <if test="cityName!=null and cityName!=''">
+            cityName,
+        </if>
+        <if test="districtID!=null and districtID!=''">
+            districtID,
+        </if>
+        <if test="districtName!=null and districtName!=''">
+            districtName,
+        </if>
+        <if test="areaName!=null and areaName!=''">
+            areaName,
+        </if>
+        <if test="longitude!=null">
+            longitude,
+        </if>
+        <if test="latitude!=null">
+            latitude,
+        </if>
+        <if test="longitude_WGS84!=null">
+            longitude_WGS84,
+        </if>
+        <if test="latitude_WGS84!=null">
+            latitude_WGS84,
+        </if>
+        <if test="farmType!=null and farmType!=''">
+            farmType,
+        </if>
+        <if test="company!=null and company!=''">
+            company,
+        </if>
+        <if test="leader!=null and leader!=''">
+            leader,
+        </if>
+        <if test="leaderPhone!=null and leaderPhone!=''">
+            leaderPhone
+        </if>
+        )
+        values(#{uuid},
+        <if test="name!=null and name!=''">
+            #{name},
+        </if>
+        <if test="code!=null and code!=''">
+            #{code},
+        </if>
+        <if test="provineceID!=null and provineceID!=''">
+            #{provineceID},
+        </if>
+        <if test="provineceName!=null and provineceName!=''">
+            #{provineceName},
+        </if>
+        <if test="cityID!=null and cityID!=''">
+            #{cityID},
+        </if>
+        <if test="cityName!=null and cityName!=''">
+            #{cityName},
+        </if>
+        <if test="districtID!=null and districtID!=''">
+            #{districtID},
+        </if>
+        <if test="districtName!=null and districtName!=''">
+            #{districtName},
+        </if>
+        <if test="areaName!=null and areaName!=''">
+            #{areaName},
+        </if>
+        <if test="longitude!=null and longitude!=''">
+            #{longitude},
+        </if>
+        <if test="latitude!=null">
+            #{latitude},
+        </if>
+        <if test="longitude_WGS84!=null  ">
+            #{longitude_WGS84},
+        </if>
+        <if test="latitude_WGS84!=null ">
+            #{latitude_WGS84},
+        </if>
+        <if test="farmType!=null and farmType!=''">
+            #{farmType},
+        </if>
+        <if test="company!=null and company!=''">
+            #{company},
+        </if>
+        <if test="leader!=null and leader!=''">
+            #{leader},
+        </if>
+        <if test="leaderPhone!=null and leaderPhone!=''">
+            #{leaderPhone}
+        </if>)
+    </insert>
+
+    <update id="updateFarm" parameterType="com.example.jwtsecutity.entity.FarmInfo">
+        update FarmInfo
+        set
+<!--        <if test="UUID!=null and UUID!=''">-->
+<!--            UUID=#{UUID},-->
+<!--        </if>-->
+        <if test="name!=null and name!=''">
+            name=#{name},
+        </if>
+        <if test="code!=null and code!=''">
+            code=#{code},
+        </if>
+        <if test="provineceID!=null and provineceID!=''">
+            provineceID= #{provineceID},
+        </if>
+        <if test="provineceName!=null and provineceName!=''">
+            provineceName= #{provineceName},
+        </if>
+        <if test="cityID!=null and cityID!=''">
+            cityID= #{cityID},
+        </if>
+        <if test="cityName!=null and cityName!=''">
+            cityName= #{cityName},
+        </if>
+        <if test="districtID!=null and districtID!=''">
+            districtID= #{districtID},
+        </if>
+        <if test="districtName!=null and districtName!=''">
+            districtName= #{districtName},
+        </if>
+        <if test="areaName!=null and areaName!=''">
+            areaName= #{areaName},
+        </if>
+        <if test="longitude!=null ">
+            longitude= #{longitude},
+        </if>
+        <if test="latitude!=null">
+            latitude= #{latitude},
+        </if>
+        <if test="longitude_WGS84!=null  ">
+            longitude_WGS84= #{longitude_WGS84},
+        </if>
+        <if test="latitude_WGS84!=null ">
+            latitude_WGS84= #{latitude_WGS84},
+        </if>
+        <if test="farmType!=null and farmType!=''">
+            farmType= #{farmType},
+        </if>
+        <if test="company!=null and company!=''">
+            company= #{company},
+        </if>
+        <if test="leader!=null and leader!=''">
+            leader=#{leader},
+        </if>
+        <if test="leaderPhone!=null and leaderPhone!=''">
+            leaderPhone= #{leaderPhone}
+        </if>
+        where id=#{id}
+    </update>
+</mapper>

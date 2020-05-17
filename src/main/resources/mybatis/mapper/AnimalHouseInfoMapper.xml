@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.jwtsecutity.mapper.AnimalHouseInfoMapper">
+    <select id="getAnimalHouseByID" parameterType="long" resultType="com.example.jwtsecutity.entity.AnimalHouseInfo">
+        select * from AnimalHouseInfo where id = #{id}
+    </select>
+    <select id="getAnimalHousesByFarm"  parameterType="string"  resultType="com.example.jwtsecutity.entity.AnimalHouseInfo">
+        select * from AnimalHouseInfo where farm_UUID=#{farm_UUID}
+    </select>
+
+    <select id="getAnimalHousesByPlace" resultType="com.example.jwtsecutity.entity.AnimalHouseInfo">
+        select a.*,f.name as farmname from AnimalHouseInfo a left JOIN FarmInfo f on a.farm_UUID=f.UUID  where farm_UUID in(SELECT
+        [UUID]
+        from [FarmInfo]
+        <choose>
+            <when test="districtID!=null and districtID!=0">
+                where districtID = #{districtID}
+            </when>
+
+            <when test="cityID!=null and cityID!=0">
+                where cityID = #{cityID}
+            </when>
+            <when test="provineceID!=null and provineceID!=0">
+                where provineceID = #{provineceID}
+            </when>
+        </choose>
+        )
+    </select>
+
+
+
+
+    <insert id="insertAnimalHouse" parameterType="com.example.jwtsecutity.entity.AnimalHouseInfo" useGeneratedKeys="true">
+
+        insert into AnimalHouseInfo(animalHouse_ID,
+        <if test="name!=null and name!=''">
+            name,
+        </if>
+        <if test="code!=null and code!=''">
+            code,
+        </if>
+        farm_UUID,
+        <if test="longitude!=null and longitude!=''">
+            longitude,
+        </if>
+        <if test="latitude!=null and latitude!=''">
+            latitude,
+        </if>
+        <if test="longitude_WGS84!=null and longitude_WGS84!=''">
+            longitude_WGS84,
+        </if>
+        <if test="latitude_WGS84!=null and latitude_WGS84!=''">
+            latitude_WGS84,
+        </if>
+        <if test="houseType!=null and houseType!=''">
+            houseType,
+        </if>
+
+        <if test="farmType!=null and farmType!=''">
+            farmType,
+        </if>
+        <if test="reMark!=null and reMark!=''">
+            reMark
+        </if>)
+        values(#{animalHouse_ID},
+        <if test="name!=null and name!=''">
+            #{name},
+        </if>
+        <if test="code!=null and code!=''">
+            #{code},
+        </if>
+        <if test="farm_UUID!=null and farm_UUID!=''">
+            #{farm_UUID},
+        </if>
+        <if test="longitude!=null and longitude!=''">
+            #{longitude},
+        </if>
+        <if test="latitude!=null and latitude!=''">
+            #{latitude},
+        </if>
+
+        <if test="longitude_WGS84!=null and longitude_WGS84!=''">
+            #{longitude_WGS84},
+        </if>
+        <if test="latitude_WGS84!=null and latitude_WGS84!=''">
+            #{latitude_WGS84},
+        </if>
+
+        <if test="houseType!=null and houseType!=''">
+            #{houseType},
+        </if>
+        <if test="farmType!=null and farmType!=''">
+            #{farmType},
+        </if>
+
+        <if test="reMark!=null and reMark!=''">
+            #{reMark}
+        </if>)
+    </insert>
+
+    <update id="updateAnimalHouse" parameterType="com.example.jwtsecutity.entity.AnimalHouseInfo">
+        update AnimalHouseInfo
+        set
+        animalHouse_ID= #{animalHouse_ID},
+        <if test="name!=null and name!=''">
+            name=#{name},
+        </if>
+        <if test="code!=null and code!=''">
+            code= #{code},
+        </if>
+        <if test="farm_UUID!=null and farm_UUID!=''">
+            farm_UUID= #{farm_UUID},
+        </if>
+        <if test="longitude!=null">
+            longitude= #{longitude},
+        </if>
+        <if test="latitude!=null">
+            latitude= #{latitude},
+        </if>
+        <if test="longitude_WGS84!=null ">
+            longitude_WGS84= #{longitude_WGS84},
+        </if>
+        <if test="latitude_WGS84!=null">
+            latitude_WGS84= #{latitude_WGS84},
+        </if>
+        <if test="houseType!=null and houseType!=''">
+            houseType= #{houseType},
+        </if>
+        <if test="farmType!=null and farmType!=''">
+            farmType= #{farmType},
+        </if>
+        <if test="reMark!=null and reMark!=''">
+            reMark= #{reMark}
+        </if>
+        where id=#{id}
+    </update>
+
+</mapper>

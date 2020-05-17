@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.jwtsecutity.mapper.SensorInfoMapper">
+    <select id="getSensorInfoByID" parameterType="long" resultType="com.example.jwtsecutity.entity.SensorInfo">
+        select * from SensorInfo where id = #{id}
+    </select>
+    <select id="getSensorInfosByAnimalAndPen" resultType="com.example.jwtsecutity.entity.SensorInfo">
+        select * from SensorInfo where penID=#{penID} and animalHouseID=#{animalHouseID}
+        <!--        <choose>-->
+        <!--            <when test="districtID!=null and districtID!=0">-->
+        <!--                where  districtID = #{districtID}-->
+        <!--            </when>-->
+
+        <!--            <when test="cityID!=null and cityID!=0">-->
+        <!--                where   cityID = #{cityID}-->
+        <!--            </when>-->
+        <!--            <when test="provineceID!=null and provineceID!=0">-->
+        <!--                where   provineceID = #{provineceID}-->
+        <!--            </when>-->
+        <!--        </choose>-->
+    </select>
+
+    <insert id="insertSensorInfo" parameterType="com.example.jwtsecutity.entity.SensorInfo" useGeneratedKeys="true">
+
+        insert into SensorInfo(sensor_ID,
+        <if test="name!=null and name!=''">
+            name,
+        </if>
+        <if test="type!=null and type!=''">
+            type,
+        </if>
+        <if test="penID!=null">
+            penID,
+        </if>
+        <if test="animalHouseID!=null">
+            animalHouseID,
+        </if>
+
+        <if test="reMark!=null and reMark!=''">
+            reMark
+        </if>)
+        values(#{sensor_ID},
+        <if test="name!=null and name!=''">
+            #{name},
+        </if>
+        <if test="type!=null and type!=''">
+            #{type},
+        </if>
+        <if test="penID!=null and penID!=''">
+            #{penID},
+        </if>
+        <if test="animalHouseID!=null and animalHouseID!=''">
+            #{animalHouseID},
+        </if>
+
+        <if test="reMark!=null and reMark!=''">
+            #{reMark}
+        </if>)
+    </insert>
+
+    <update id="updateSensorInfo" parameterType="com.example.jwtsecutity.entity.SensorInfo">
+        update SensorInfo
+        set
+        sensor_ID= #{sensor_ID},
+        <if test="name!=null and name!=''">
+            name=#{name},
+        </if>
+        <if test="type!=null and type!=''">
+            type= #{type},
+        </if>
+        <if test="penID!=null ">
+            penID= #{penID},
+        </if>
+        <if test="animalHouseID!=null ">
+            animalHouseID= #{animalHouseID},
+        </if>
+
+        <if test="reMark!=null and reMark!=''">
+            reMark= #{reMark}
+        </if>
+        where id=#{id}
+    </update>
+
+</mapper>

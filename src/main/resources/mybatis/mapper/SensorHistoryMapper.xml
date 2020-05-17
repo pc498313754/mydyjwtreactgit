@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.jwtsecutity.mapper.SensorHistoryMapper">
+    <select id="getSensorHistoryByID"   resultType="com.example.jwtsecutity.entity.SensorHistory">
+    select id
+        ,UUID
+        ,sensorInfoID
+        ,curData
+        ,unit
+        ,createTime
+        ,dataDateTime from SensorHistory where id = #{id}
+    </select>
+    <select id="getSensorHistorys" resultType="com.example.jwtsecutity.entity.SensorHistory">
+        select * from AnimalHouseInfo where sensorInfoID=#{sensorInfoID}
+
+    </select>
+    <select id="getSensorHistoryByMinChartMapper" resultType="com.example.jwtsecutity.entity.SensorHistory">
+        select id,UUID,sensorInfoID,curData,unit,createTime,dataDateTime
+        from (
+        select *,row=row_number() over(partition by sensorInfoID order by getdate()) from
+        (
+        select * from sensorhistory where UUID in(select UUID   from [FarmInfo]
+        <choose>
+            <when test="districtID!=null and districtID!=0">
+                where districtID = #{districtID}
+            </when>
+
+            <when test="cityID!=null and cityID!=0">
+                where cityID = #{cityID}
+            </when>
+            <when test="provineceID!=null and provineceID!=0">
+                where provineceID = #{provineceID}
+            </when>
+        </choose>
+        )
+        )
+        a
+        )  b
+        where row &lt; #{rowcount}
+
+    </select>
+    <!--
+    字段	符号	说明
+&lt ;	<	小于号
+&gt ;	>	大于号
+&amp ;	&	和
+&apos ;	'	单引号
+&quot ;	"	双引号
+    -->
+
+    <insert id="insertSensorHistory" parameterType="com.example.jwtsecutity.entity.SensorHistory" useGeneratedKeys="true">
+
+        insert into SensorHistory(UUID,sensorInfoID,
+        <if test="curData!=null and curData!=''">
+            curData,
+        </if>
+        <if test="unit!=null and unit!=''">
+            unit,
+        </if>
+        <if test="dataDateTime!=null and dataDateTime!=''">
+            dataDateTime
+        </if>
+        )
+        values(#{UUID},#{sensorInfoID},
+        <if test="curData!=null and curData!=''">
+            #{curData},
+        </if>
+        <if test="unit!=null and unit!=''">
+            #{unit},
+        </if>
+        <if test="dataDateTime!=null and dataDateTime!=''">
+            #{dataDateTime}
+        </if>
+     )
+    </insert>
+
+    <update id="updateSensorHistory" parameterType="com.example.jwtsecutity.entity.SensorHistory">
+        update SensorHistory
+        set
+        sensorInfoID= #{sensorInfoID},
+        <if test="curData!=null and curData!=''">
+            curData=#{curData},
+        </if>
+        <if test="unit!=null and unit!=''">
+            unit= #{unit},
+        </if>
+        <if test="dataDateTime!=null and dataDateTime!=''">
+            dataDateTime= #{dataDateTime},
+        </if>
+
+        where UUID=#{UUID}
+    </update>
+
+</mapper>

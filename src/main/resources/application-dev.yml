@@ -1,0 +1,65 @@
+server:
+  port: 8888
+
+spring:
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+    time-zone: GMT+8
+#  datasource:
+#    url: jdbc:mysql://192.168.192.133:3306/jwt?useUnicode=true&characterEncoding=utf-8&useSSL=false&allowPublicKeyRetrieval=true
+#    username: root
+#    password: 123
+#    driver-class-name: com.mysql.cj.jdbc.Driver
+
+#  datasource:
+#    url: jdbc:sqlserver://172.16.0.227:1433;DatabaseName=springboot
+#    username: sa
+#    password: 123
+#    driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
+#    type: com.alibaba.druid.pool.DruidDataSource
+
+  main:
+    allow-bean-definition-overriding: true
+#  elasticsearch:
+#    cluster-name: docker-cluster
+#    address: 192.168.192.133
+#    port: 9300
+#    repositories:
+#      enabled: true
+
+  security:
+    loginType: JSON
+  redis:
+    host: 172.18.0.146
+    port: 6379
+    jedis:
+      pool:
+        max-active: 500
+        max-wait: 50000
+        max-idle: 500
+        min-idle: 0
+    cache:
+        type: redis #缓存类型
+        redis:
+          cache-null-values: false #不缓存null数据
+          time-to-live: 50000ms #超时时间
+          use-key-prefix: false #不使用前缀
+
+
+
+#
+#logging:
+#    config: classpath:log4j2-dev.xml
+
+mybatis:
+  mapper-locations: classpath:mybatis/mapper/*.xml
+#    config-location: classpath:mybatis/mybatis-config.xml
+
+
+#    configuration:
+#      mapUnderscoreToCamelCase: true
+#3600000一小时  172800000两天
+jwt:
+  secret: ffjaksdfjaklf
+  expiration: 172800000
+  header: JWTHeaderName

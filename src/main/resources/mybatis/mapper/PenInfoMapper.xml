@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.jwtsecutity.mapper.PenInfoMapper">
+    <select id="getPenInfoByID" parameterType="long" resultType="com.example.jwtsecutity.entity.PenInfo">
+        select * from PenInfo where id = #{id}
+    </select>
+    <select id="getPenInfosByAnimal" resultType="com.example.jwtsecutity.entity.PenInfo">
+        select * from PenInfo where animalHouseID=#{animalHouseID}
+        <!--        <choose>-->
+        <!--            <when test="districtID!=null and districtID!=0">-->
+        <!--                where  districtID = #{districtID}-->
+        <!--            </when>-->
+
+        <!--            <when test="cityID!=null and cityID!=0">-->
+        <!--                where   cityID = #{cityID}-->
+        <!--            </when>-->
+        <!--            <when test="provineceID!=null and provineceID!=0">-->
+        <!--                where   provineceID = #{provineceID}-->
+        <!--            </when>-->
+        <!--        </choose>-->
+    </select>
+
+    <insert id="insertPenInfo" parameterType="com.example.jwtsecutity.entity.PenInfo" useGeneratedKeys="true">
+
+        insert into PenInfo(pen_ID,
+
+        <if test="name!=null and name!=''">
+            name,
+        </if>
+        <if test="code!=null and code!=''">
+            code,
+        </if>
+        <if test="animalHouseID!=null">
+            animalHouseID,
+        </if>
+
+        <if test="penType!=null and penType!=''">
+            penType,
+        </if>
+
+        <if test="penInfo!=null and penInfo!=''">
+            penInfo,
+        </if>
+        <if test="reMark!=null and reMark!=''">
+            reMark
+        </if>)
+        values(#{pen_ID},
+        <if test="name!=null and name!=''">
+            #{name},
+        </if>
+        <if test="code!=null and code!=''">
+            #{code},
+        </if>
+        <if test="animalHouseID!=null and animalHouseID!=''">
+            #{animalHouseID},
+        </if>
+        <if test="penType!=null and penType!=''">
+            #{penType},
+        </if>
+        <if test="penInfo!=null and penInfo!=''">
+            #{penInfo},
+        </if>
+
+        <if test="reMark!=null and reMark!=''">
+            #{reMark}
+        </if>)
+    </insert>
+
+    <update id="updatePenInfo" parameterType="com.example.jwtsecutity.entity.PenInfo">
+        update PenInfo
+        set
+        pen_ID= #{pen_ID},
+        <if test="name!=null and name!=''">
+            name=#{name},
+        </if>
+        <if test="code!=null and code!=''">
+            code= #{code},
+        </if>
+        <if test="animalHouseID!=null ">
+            animalHouseID= #{animalHouseID},
+        </if>
+
+        <if test="penType!=null and penType!=''">
+            penType= #{penType},
+        </if>
+        <if test="penInfo!=null and penInfo!=''">
+            penInfo= #{penInfo},
+        </if>
+        <if test="reMark!=null and reMark!=''">
+            reMark= #{reMark}
+        </if>
+        where id=#{id}
+    </update>
+
+</mapper>
