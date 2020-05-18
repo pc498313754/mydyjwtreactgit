@@ -41,6 +41,15 @@ public class SensorHistoryController {
         System.out.println(ss);
         return ss;
     }
+//    getSensorHistoryOneService
+@RequestMapping(value = "/api/sensorhistory/onechart")
+public Object getSensorHistoryOneChart(@RequestParam String sensor) {
+
+    System.out.println("sensor:"+sensor);
+    Object ss = sensorHistoryService.getSensorHistoryOneService(sensor);
+    System.out.println(ss);
+    return ss;
+}
     @PostMapping(value = "/api/sensorhistory/update")
     public Object updatePen(@RequestBody SensorHistory sensorHistory ) {
         System.out.println("/sensor/update");

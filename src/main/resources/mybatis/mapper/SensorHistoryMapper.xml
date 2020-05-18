@@ -11,6 +11,17 @@
         ,createTime
         ,dataDateTime from SensorHistory where id = #{id}
     </select>
+
+
+    <select id="getSensorHistoryOne"   resultType="com.example.jwtsecutity.entity.SensorHistory">
+        select id
+        ,UUID
+        ,sensorInfoID
+        ,curData
+        ,unit
+        ,createTime
+        ,dataDateTime from SensorHistory where sensorInfoID = #{sensorInfoID}
+    </select>
     <select id="getSensorHistorys" resultType="com.example.jwtsecutity.entity.SensorHistory">
         select * from AnimalHouseInfo where sensorInfoID=#{sensorInfoID}
 

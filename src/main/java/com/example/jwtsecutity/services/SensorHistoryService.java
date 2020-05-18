@@ -23,7 +23,13 @@ public class SensorHistoryService {
         List<SensorHistory> ss = sensorHistoryMapper.getSensorHistorys(sensorInfoID,startTime,endTime);
         return JSON.toJSON(ss);
     }
+
+//     List<SensorHistory>   getSensorHistoryOne(String SensorHistory);
 //
+public Object getSensorHistoryOneService(String sensorInfoID ) {
+    List<SensorHistory> ss = sensorHistoryMapper.getSensorHistoryOneMapper(sensorInfoID);
+    return JSON.toJSON(ss);
+}
 public Object getSensorHistoryByMinChartService(String districtID, String cityID, String provineceID,String rowcount) {
     List<SensorHistory> ss = sensorHistoryMapper.getSensorHistoryByMinChartMapper(districtID, cityID, provineceID, rowcount);
     return JSON.toJSON(ss);

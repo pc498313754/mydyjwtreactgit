@@ -15,4 +15,7 @@ public interface SensorHistoryMapper {
     int updateSensorHistory(SensorHistory sensorHistory);
 
     List<SensorHistory> getSensorHistoryByMinChartMapper(String districtID, String cityID, String provineceID,String rowcount);
+
+    List<SensorHistory>   getSensorHistoryOneMapper(String SensorHistory);
+//
 }
